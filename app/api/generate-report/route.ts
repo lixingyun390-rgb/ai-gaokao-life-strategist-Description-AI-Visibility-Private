@@ -28,13 +28,7 @@ export async function POST(request: Request) {
     const fallbackReport = generateLocalReport(body);
 
     return NextResponse.json(
-      {
-        ...fallbackReport,
-        nextSteps: [
-          "报告已生成。当前 AI 额度或模型服务可能暂时不可用，系统先给出一版可测试的理性参考；正式使用前建议补足 API 额度后重新生成。",
-          ...fallbackReport.nextSteps,
-        ].slice(0, 4),
-      },
+      fallbackReport,
       {
         headers: {
           "x-ai-fallback": "local",
