@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getAdmissionPlanSource } from "@/lib/admission-plan-data";
 import { mockReport } from "@/lib/mock-data";
+import { generateLocalReport } from "@/lib/report-engine";
 import type { Audience, BasicInfo, InterviewAnswer, Report } from "@/lib/types";
 
 type GenerateReportBody = {
@@ -24,7 +25,23 @@ export async function POST(request: Request) {
     return NextResponse.json(report);
   } catch (error) {
     const message = error instanceof Error ? error.message : "AI 报告生成失败";
-    return NextResponse.json({ error: message }, { status: 500 });
+    const fallbackReport = generateLocalReport(body);
+
+    return NextResponse.json(
+      {
+        ...fallbackReport,
+        nextSteps: [
+          "报告已生成。当前 AI 额度或模型服务可能暂时不可用，系统先给出一版可测试的理性参考；正式使用前建议补足 API 额度后重新生成。",
+          ...fallbackReport.nextSteps,
+        ].slice(0, 4),
+      },
+      {
+        headers: {
+          "x-ai-fallback": "local",
+          "x-ai-error": encodeURIComponent(message).slice(0, 300),
+        },
+      },
+    );
   }
 }
 
