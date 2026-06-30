@@ -1,0 +1,10 @@
+node_modules
+.next
+.next-stale-runtime
+.npm-cache
+out
+dist
+*.log
+.env
+.env.*
+tsconfig.tsbuildinfo

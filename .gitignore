@@ -1,0 +1,29 @@
+.next
+.next-stale-runtime
+node_modules
+out
+dist
+.env*.local
+*.log
+.npm-cache
+.npmrc
+
+.vercel
+
+# Tencent Cloud EdgeOne
+.env
+.edgeone/*
+.tef_dist/*
+.cloudbase-upload
+.cloudrun-upload
+.edgeone-upload
+.cloudbaserc*.json
+
+# Build artifacts
+tsconfig.tsbuildinfo
+
+# Large source datasets used during local imports
+data/admission-plans/
+
+# Generated QR codes
+ai-gaokao-*-qr.png

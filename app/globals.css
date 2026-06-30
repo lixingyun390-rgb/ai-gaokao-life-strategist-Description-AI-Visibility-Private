@@ -1,0 +1,586 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 38 33% 97%;
+  --foreground: 218 28% 16%;
+  --card: 0 0% 100%;
+  --card-foreground: 218 28% 16%;
+  --primary: 172 62% 31%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 206 36% 91%;
+  --secondary-foreground: 216 28% 24%;
+  --muted: 210 30% 94%;
+  --muted-foreground: 216 14% 43%;
+  --accent: 31 83% 88%;
+  --accent-foreground: 218 28% 18%;
+  --border: 210 25% 84%;
+  --input: 210 25% 84%;
+  --ring: 172 62% 31%;
+}
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+}
+
+.opening-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #040812;
+  color: white;
+  clip-path: inset(0 0 0 0);
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.opening-stage::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 50% 20%, rgb(34 211 238 / 34%), transparent 30%),
+    radial-gradient(circle at 22% 76%, rgb(251 113 133 / 28%), transparent 28%),
+    radial-gradient(circle at 82% 70%, rgb(190 242 100 / 18%), transparent 24%),
+    linear-gradient(135deg, #020617 0%, #07111f 52%, #011114 100%);
+}
+
+.opening-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.28;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 16%) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 10%) 0 1px, transparent 1px 22px);
+  mask-image: radial-gradient(circle at 50% 45%, black, transparent 72%);
+}
+
+.opening-panel {
+  position: absolute;
+  inset-block: 0;
+  width: 34%;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 18%), rgb(255 255 255 / 4%)),
+    rgb(8 18 28 / 82%);
+  backdrop-filter: blur(22px);
+}
+
+.opening-panel-a {
+  left: 0;
+}
+
+.opening-panel-b {
+  left: 33%;
+  background:
+    linear-gradient(180deg, rgb(34 211 238 / 26%), rgb(255 255 255 / 5%)),
+    rgb(8 18 28 / 72%);
+}
+
+.opening-panel-c {
+  right: 0;
+  background:
+    linear-gradient(180deg, rgb(251 113 133 / 24%), rgb(255 255 255 / 5%)),
+    rgb(8 18 28 / 78%);
+}
+
+.opening-title-wrap {
+  position: relative;
+  z-index: 2;
+  width: min(100% - 40px, 760px);
+  transform: translateY(-4svh);
+}
+
+.opening-kicker {
+  display: inline-flex;
+  margin-bottom: 14px;
+  border: 1px solid rgb(255 255 255 / 26%);
+  background: rgb(255 255 255 / 12%);
+  padding: 8px 10px;
+  color: rgb(186 230 253);
+  font-size: 0.72rem;
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(16px);
+}
+
+.opening-title {
+  max-width: 100%;
+  color: white;
+  font-size: clamp(2.8rem, 13vw, 7.4rem);
+  font-weight: 950;
+  line-height: 0.88;
+  letter-spacing: 0;
+  overflow-wrap: break-word;
+  text-shadow:
+    0 1px 0 rgb(255 255 255 / 24%),
+    0 24px 70px rgb(34 211 238 / 26%);
+}
+
+.opening-scanline {
+  position: absolute;
+  left: 0;
+  top: 52%;
+  z-index: 3;
+  width: 78%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #67e8f9, #fb7185, transparent);
+  box-shadow: 0 0 32px rgb(34 211 238 / 70%);
+}
+
+.motion-title,
+.motion-card,
+.motion-reveal,
+.motion-parallax {
+  will-change: transform, opacity, clip-path, filter;
+}
+
+.motion-section {
+  perspective: 1200px;
+}
+
+.safe-page {
+  min-height: 100svh;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.galaxy-page {
+  position: relative;
+  min-height: 100svh;
+  overflow-x: hidden;
+  background: #040812;
+  color: hsl(var(--foreground));
+}
+
+.galaxy-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 12%, rgb(34 211 238 / 20%), transparent 34%),
+    radial-gradient(circle at 18% 76%, rgb(244 114 182 / 13%), transparent 28%),
+    linear-gradient(180deg, rgb(246 250 255 / 48%) 0%, rgb(244 248 250 / 78%) 38%, rgb(247 246 241 / 88%) 100%);
+}
+
+.galaxy-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.galaxy-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 100svh;
+}
+
+.galaxy-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.border-glow-card {
+  --edge-proximity: 0;
+  --cursor-angle: 45deg;
+  --edge-sensitivity: 24;
+  --color-sensitivity: calc(var(--edge-sensitivity) + 20);
+  --border-radius: 14px;
+  --glow-padding: 28px;
+  --cone-spread: 28;
+
+  position: relative;
+  display: grid;
+  isolation: isolate;
+  overflow: visible;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: var(--border-radius);
+  background: var(--card-bg, rgb(8 18 28 / 78%));
+  transform: translate3d(0, 0, 0.01px);
+  box-shadow: 0 16px 38px rgb(2 6 23 / 16%);
+}
+
+.border-glow-card::before,
+.border-glow-card::after,
+.border-glow-card > .edge-light {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  transition: opacity 0.25s ease-out;
+}
+
+.border-glow-card:not(:hover):not(:focus-within):not(:active)::before,
+.border-glow-card:not(:hover):not(:focus-within):not(:active)::after,
+.border-glow-card:not(:hover):not(:focus-within):not(:active) > .edge-light {
+  opacity: 0;
+  transition: opacity 0.55s ease-in-out;
+}
+
+.border-glow-card::before {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--card-bg, rgb(8 18 28 / 78%)) 0 100%) padding-box,
+    linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
+    var(--gradient-one) border-box,
+    var(--gradient-two) border-box,
+    var(--gradient-three) border-box,
+    var(--gradient-four) border-box,
+    var(--gradient-five) border-box,
+    var(--gradient-six) border-box,
+    var(--gradient-seven) border-box,
+    var(--gradient-base) border-box;
+  mask-image:
+    conic-gradient(
+      from var(--cursor-angle) at center,
+      black calc(var(--cone-spread) * 1%),
+      transparent calc((var(--cone-spread) + 15) * 1%),
+      transparent calc((100 - var(--cone-spread) - 15) * 1%),
+      black calc((100 - var(--cone-spread)) * 1%)
+    );
+  opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+}
+
+.border-glow-card::after {
+  background:
+    var(--gradient-one) padding-box,
+    var(--gradient-two) padding-box,
+    var(--gradient-three) padding-box,
+    var(--gradient-four) padding-box,
+    var(--gradient-five) padding-box,
+    var(--gradient-six) padding-box,
+    var(--gradient-seven) padding-box,
+    var(--gradient-base) padding-box;
+  mask-image:
+    radial-gradient(ellipse at 50% 50%, black 38%, transparent 68%),
+    conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 16%, black 84%, transparent 95%);
+  mask-composite: intersect;
+  mix-blend-mode: screen;
+  opacity: calc(var(--fill-opacity, 0.38) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+}
+
+.border-glow-card > .edge-light {
+  inset: calc(var(--glow-padding) * -1);
+  z-index: 1;
+  pointer-events: none;
+  mask-image: conic-gradient(from var(--cursor-angle) at center, black 3%, transparent 13%, transparent 87%, black 97%);
+  mix-blend-mode: plus-lighter;
+  opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+}
+
+.border-glow-card > .edge-light::before {
+  content: "";
+  position: absolute;
+  inset: var(--glow-padding);
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--glow-color),
+    inset 0 0 8px 0 var(--glow-color-40),
+    inset 0 0 24px 2px var(--glow-color-20),
+    0 0 10px 0 var(--glow-color-40),
+    0 0 24px 2px var(--glow-color-20),
+    0 0 48px 2px var(--glow-color-10);
+}
+
+.border-glow-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.interview-glass-panel {
+  border-color: rgb(255 255 255 / 20%);
+  background:
+    linear-gradient(180deg, rgb(8 18 28 / 76%), rgb(9 21 31 / 58%)),
+    radial-gradient(circle at 50% 0%, rgb(34 211 238 / 18%), transparent 45%);
+  box-shadow: 0 22px 60px rgb(2 6 23 / 24%);
+  color: white;
+  backdrop-filter: blur(18px);
+}
+
+.interview-input-dock {
+  border: 1px solid rgb(255 255 255 / 18%);
+  background: rgb(5 12 22 / 58%);
+  box-shadow: 0 -18px 48px rgb(2 6 23 / 18%);
+  backdrop-filter: blur(18px);
+}
+
+.choice-glow-button {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 16px;
+  border: 0;
+  background: transparent;
+  color: rgb(241 245 249);
+  text-align: left;
+  font-size: 0.92rem;
+  font-weight: 650;
+  line-height: 1.55;
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+
+.choice-glow-button:hover,
+.choice-glow-button:focus-visible,
+.choice-glow-button:active {
+  color: white;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.collage-header {
+  position: relative;
+  z-index: 10;
+  min-height: 190px;
+  overflow: hidden;
+  border-bottom: 1px solid rgb(255 255 255 / 48%);
+  background:
+    linear-gradient(180deg, rgb(4 8 18 / 56%) 0%, rgb(4 8 18 / 18%) 56%, rgb(255 255 255 / 22%) 100%);
+  backdrop-filter: blur(10px);
+  isolation: isolate;
+}
+
+.collage-header::before {
+  content: "";
+  position: absolute;
+  inset: -28px;
+  z-index: -1;
+  opacity: 0.28;
+  background:
+    repeating-linear-gradient(104deg, transparent 0 18px, rgb(255 255 255 / 28%) 19px 21px, transparent 22px 44px),
+    repeating-linear-gradient(8deg, rgb(15 23 42 / 18%) 0 2px, transparent 2px 14px),
+    radial-gradient(circle at 85% 18%, rgb(255 255 255 / 62%) 0 8%, transparent 9%),
+    radial-gradient(circle at 35% 76%, rgb(255 255 255 / 42%) 0 13%, transparent 14%);
+  transform: rotate(-4deg) scale(1.08);
+}
+
+.collage-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgb(3 7 18 / 12%) 0%, rgb(3 7 18 / 2%) 100%),
+    radial-gradient(circle at 50% 45%, transparent 0 42%, rgb(255 255 255 / 18%) 43% 44%, transparent 45%);
+  pointer-events: none;
+}
+
+.collage-nav {
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  z-index: 5;
+  display: flex;
+  width: min(100% - 24px, 448px);
+  transform: translateX(-50%);
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgb(255 255 255 / 26%);
+  background: rgb(15 23 42 / 28%);
+  padding: 10px;
+  box-shadow: 0 18px 44px rgb(15 23 42 / 18%);
+  backdrop-filter: blur(14px);
+}
+
+.collage-title-block {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  z-index: 6;
+  width: min(100% - 32px, 448px);
+  transform: translateX(-50%);
+  color: white;
+  text-shadow: 0 3px 18px rgb(15 23 42 / 42%);
+}
+
+.collage-title-block h1 {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  margin: 0;
+  background: rgb(15 23 42 / 38%);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 4px 8px 7px;
+  font-size: 2.15rem;
+  font-weight: 950;
+  line-height: 0.98;
+  letter-spacing: 0;
+  text-wrap: balance;
+  backdrop-filter: blur(8px);
+  box-shadow: 8px 8px 0 rgb(20 184 166 / 70%);
+}
+
+.collage-kicker {
+  display: inline-flex;
+  margin: 0 0 8px;
+  background: #fb7185;
+  padding: 5px 8px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+  box-shadow: 5px 5px 0 rgb(14 165 233 / 72%);
+  transform: rotate(-1.5deg);
+}
+
+.collage-layer,
+.collage-letter,
+.collage-mark,
+.collage-orbit {
+  position: absolute;
+  pointer-events: none;
+}
+
+.collage-layer-one {
+  left: -18px;
+  bottom: 8px;
+  width: 165px;
+  height: 92px;
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 86%) 0 8px, transparent 9px),
+    repeating-linear-gradient(0deg, rgb(15 23 42 / 16%) 0 2px, transparent 2px 11px),
+    linear-gradient(135deg, #dbeafe, #67e8f9);
+  clip-path: polygon(0 8%, 88% 0, 100% 84%, 14% 100%);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  transform: rotate(-9deg);
+}
+
+.collage-layer-two {
+  right: -36px;
+  top: 46px;
+  width: 150px;
+  height: 105px;
+  background:
+    radial-gradient(circle at 50% 50%, rgb(255 255 255 / 84%) 0 18%, transparent 19%),
+    repeating-radial-gradient(circle at 50% 50%, rgb(30 64 175 / 55%) 0 4px, transparent 5px 12px),
+    linear-gradient(135deg, #f9a8d4, #38bdf8);
+  clip-path: ellipse(48% 42% at 50% 50%);
+  transform: rotate(13deg);
+  opacity: 0.5;
+}
+
+.collage-layer-three {
+  left: 44%;
+  bottom: -24px;
+  width: 128px;
+  height: 128px;
+  background:
+    conic-gradient(from 20deg, #22c55e, #06b6d4, #6366f1, #facc15, #ec4899, #22c55e);
+  clip-path: circle(50% at 50% 50%);
+  opacity: 0.82;
+  transform: rotate(-12deg);
+}
+
+.collage-letter {
+  z-index: 2;
+  font-size: 6.6rem;
+  font-weight: 900;
+  line-height: 0.8;
+  letter-spacing: 0;
+  color: rgb(255 255 255 / 50%);
+  text-shadow: 8px 8px 0 rgb(14 165 233 / 70%);
+}
+
+.collage-letter-a {
+  left: 18px;
+  top: 70px;
+  color: rgb(252 231 243 / 90%);
+  text-shadow: 8px 8px 0 rgb(236 72 153 / 68%);
+  transform: rotate(-13deg);
+}
+
+.collage-letter-i {
+  right: 46px;
+  top: 40px;
+  color: rgb(255 255 255 / 92%);
+  text-shadow: -8px 8px 0 rgb(20 184 166 / 72%);
+  transform: rotate(8deg);
+}
+
+.collage-mark-score {
+  left: 45%;
+  top: 62px;
+  z-index: 3;
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  background: rgb(255 255 255 / 62%);
+  color: #0891b2;
+  font-size: 2rem;
+  font-weight: 900;
+  box-shadow: -8px 8px 0 rgb(14 165 233 / 72%);
+  transform: rotate(-8deg);
+}
+
+.collage-mark-route {
+  right: 20px;
+  bottom: 8px;
+  z-index: 3;
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  background: rgb(251 113 133 / 76%);
+  color: white;
+  font-size: 1.9rem;
+  font-weight: 900;
+  transform: rotate(16deg);
+}
+
+.collage-orbit {
+  left: 32%;
+  top: 18px;
+  z-index: 1;
+  width: 174px;
+  height: 174px;
+  border: 2px dashed rgb(255 255 255 / 48%);
+  border-radius: 999px;
+  transform: rotate(22deg);
+}
+
+@media (min-width: 640px) {
+  .collage-header {
+    min-height: 216px;
+  }
+
+  .collage-title-block h1 {
+    font-size: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening-stage {
+    display: none;
+  }
+
+  .motion-title,
+  .motion-card,
+  .motion-reveal,
+  .motion-parallax {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
+}

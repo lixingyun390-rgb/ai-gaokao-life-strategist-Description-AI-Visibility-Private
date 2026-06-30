@@ -1,0 +1,15 @@
+node_modules
+.next
+.next-stale-runtime
+.npm-cache
+.vercel
+.edgeone
+.edgeone-upload
+.tef_dist
+out
+dist
+*.log
+.env
+.env.*
+tsconfig.tsbuildinfo
+data/admission-plans
